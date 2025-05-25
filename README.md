@@ -11,7 +11,7 @@ The 1D case analyzes three key quantum measures:
 
 For each measure, we compare four different methods:
 - MPS (Trainable Matrix Product State, aka Born Machine)
-- GPT (Transformer)
+- TFM (Transformer)
 - Post-selection
 - Decoding with different depolarization parameters (ε)
 
@@ -34,7 +34,7 @@ The 2D case analyzes the same three quantum measures but in two different contex
 2. Variation with distance (d = 3,4,5,6)
 
 ### Methods Compared
-- GPT (Transformer)
+- TFM (Transformer)
 - Decoding with different depolarization parameters (ε)
 
 ### Decoding Parameters
