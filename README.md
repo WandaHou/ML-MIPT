@@ -10,7 +10,7 @@ The 1D case analyzes three key quantum measures:
 3. Coherent Information
 
 For each measure, we compare four different methods:
-- MPS (Matrix Product State)
+- MPS (Trainable Matrix Product State, aka Born Machine)
 - GPT (Transformer)
 - Post-selection
 - Decoding with different depolarization parameters (ε)
