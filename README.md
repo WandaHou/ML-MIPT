@@ -78,7 +78,7 @@ Each notebook contains code for:
 
 Due to the large size of the data files, they are not included in this repository. The data files can be accessed through the following Google Drive link:
 
-👉 [Google Drive Link to Figure Source Files](https://drive.google.com/drive/folders/your-folder-id](https://drive.google.com/file/d/16eV9DlAr-mWAnIJmb1mFjnqXC-9bWwhb/view?usp=sharing))
+👉 [Google Drive Link to Figure Source Files](https://drive.google.com/file/d/16eV9DlAr-mWAnIJmb1mFjnqXC-9bWwhb/view?usp=sharing)
 
 The data is organized in two zip files:
 1. `1d_data`: Contains all 1D case data files
