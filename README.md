@@ -80,9 +80,9 @@ Due to the large size of the data files, they are not included in this repositor
 
 👉 [Google Drive Link to Figure Source Files](https://drive.google.com/file/d/16eV9DlAr-mWAnIJmb1mFjnqXC-9bWwhb/view?usp=sharing)
 
-The data is organized in two zip files:
 1. `1d_data`: Contains all 1D case data files
 2. `2d_data`: Contains all 2D case data files
+3. `figs_in_Mathematica`: Contains Mathematica plots
 
 👉 [Google Drive Link to Experimental Data Files](https://drive.google.com/drive/folders/your-folder-id)
 
