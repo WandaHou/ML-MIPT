@@ -78,10 +78,12 @@ Each notebook contains code for:
 
 Due to the large size of the data files, they are not included in this repository. The data files can be accessed through the following Google Drive link:
 
-[Google Drive Link to Data Files](https://drive.google.com/drive/folders/your-folder-id)
+👉[Google Drive Link to Figure Source Files](https://drive.google.com/drive/folders/your-folder-id)
 
 The data is organized in two zip files:
 1. `1d_data`: Contains all 1D case data files
 2. `2d_data`: Contains all 2D case data files
 
-<mark>Please contact the authors for access to the data files.</mark>
+👉[Google Drive Link to Full Experimental Data Files](https://drive.google.com/drive/folders/your-folder-id)
+
+<p style="background-color: yellow;">Please contact the authors for access to the data files.</p>
