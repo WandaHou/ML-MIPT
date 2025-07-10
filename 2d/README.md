@@ -46,7 +46,9 @@ The system learns to predict quantum density matrices from measurement sequences
 - `data_collect.ipynb`: Main data collection notebook for Google Quantum AI processors
 - `shallow_cirq_6x6_pink.py`: Quantum circuit generation for 6×6 grid systems
 
-**Hardware**: Google Quantum AI Willow processors (`WLA1HHPR00V02_4A_PINK`)
+**Hardware**: Google Quantum AI Willow processors
+- **Willow Pink** (`WLA1HHPR00V02_4A_PINK`): Used for d=3,4,5 data collection
+- **Willow Delphi** (`WIL01_3A_DELPHI`): Used for d=6 data collection
 
 **Features**:
 - Supports multiple probe qubit separations (d=3,4,5,6) 
@@ -170,6 +172,9 @@ jupyter notebook cluster_simulation.ipynb
 
 ### Quantum System
 - **Grid**: 6×6 qubit arrays on superconducting processors
+- **Processors**: 
+  - Willow Pink (`WLA1HHPR00V02_4A_PINK`) for d=3,4,5
+  - Willow Delphi (`WIL01_3A_DELPHI`) for d=6
 - **Probe qubits**: Two-qubit systems with variable separation (d=3,4,5,6)
 - **Measurements**: Pauli basis measurements (X, Y, Z)
 - **Circuit depth**: Shallow circuits optimized for NISQ devices
