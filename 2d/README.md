@@ -3,18 +3,24 @@
 
 # 2D Quantum Machine Learning Project
 
-A comprehensive quantum machine learning project that implements an end-to-end pipeline for quantum state prediction and reconstruction in 2D quantum systems. The project combines real quantum hardware experiments, transformer-based machine learning, and quantum state decoding to study quantum entanglement and information in two-qubit systems with varying spatial separations.
+A comprehensive quantum machine learning project that implements an end-to-end pipeline for quantum state prediction and reconstruction in 2D quantum systems. The project combines real quantum hardware experiments, transformer-based machine learning, and quantum state decoding to study quantum information in both single-qubit and two-qubit systems with varying experimental configurations.
 
 ## Project Overview
 
-This project develops and demonstrates a complete quantum machine learning pipeline consisting of four main components:
+This project develops and demonstrates a complete quantum machine learning pipeline with **two distinct experimental paradigms**:
+
+### Two-Probe Experiments
+Studies quantum entanglement and correlations between **two probe qubits** with varying spatial separations (d=3,4,5,6) on 6×6 qubit grids. Includes transformer-based machine learning for quantum state prediction.
+
+### Single-Probe Experiments  
+Investigates quantum information properties of **individual probe qubits** within cluster states, focusing on single-qubit quantum state reconstruction and tomography.
+
+Both experiments share four main pipeline components:
 
 1. **Data Collection**: Experimental data generation on Google Quantum AI processors
-2. **Training**: Transformer-based quantum state prediction using Llama architecture
+2. **Training**: Transformer-based quantum state prediction (two-probe only)
 3. **Decoding**: Quantum state reconstruction and analysis
-4. **Simulation**: Classical simulation and theoretical validation
-
-The system learns to predict quantum density matrices from measurement sequences and can reconstruct quantum states across different probe qubit spatial configurations (d=3,4,5,6) on 6×6 qubit grids.
+4. **Simulation**: Classical simulation and theoretical validation (two-probe only)
 
 ## Key Features
 
@@ -29,18 +35,25 @@ The system learns to predict quantum density matrices from measurement sequences
 
 ```
 2d/
-├── data_collection/     # Quantum hardware data generation
-├── training/           # ML training pipeline  
-├── decode/            # Quantum state reconstruction
-├── simulation/        # Classical simulation & theory
-└── README.md         # This file
+├── two_probes/           # Two-probe qubit experiments
+│   ├── data_collection/  # Quantum hardware data generation
+│   ├── training/         # ML training pipeline  
+│   ├── decode/           # Quantum state reconstruction
+│   └── simulation/       # Classical simulation & theory
+├── single_probe/         # Single-probe qubit experiments
+│   ├── data_collection/  # Quantum hardware data generation
+│   ├── decode/           # Quantum state reconstruction
+│   └── post_process_single.ipynb  # Data preprocessing
+└── README.md            # This file
 ```
 
 ## Component Overview
 
-### 1. Data Collection (`data_collection/`)
+## Two-Probe Experiments (`two_probes/`)
 
-**Purpose**: Generate experimental quantum measurement data on real quantum hardware
+### 1. Data Collection (`two_probes/data_collection/`)
+
+**Purpose**: Generate experimental quantum measurement data for two-probe qubit systems
 
 **Key Files**:
 - `data_collect.ipynb`: Main data collection notebook for Google Quantum AI processors
@@ -51,7 +64,7 @@ The system learns to predict quantum density matrices from measurement sequences
 - **Willow Delphi** (`WIL01_3A_DELPHI`): Used for d=6 data collection
 
 **Features**:
-- Supports multiple probe qubit separations (d=3,4,5,6) 
+- Two probe qubits with variable spatial separations (d=3,4,5,6)
 - Randomized compiling for error mitigation
 - Batch processing for efficient data collection
 - Systematic parameter sweeps (theta, phi, basis states)
@@ -62,9 +75,9 @@ The system learns to predict quantum density matrices from measurement sequences
 data/{snapshot_id}_d={d}/theta{theta_idx}/loop{i}/theta={theta_idx}_({b1},{b2}).pt
 ```
 
-### 2. Training (`training/`)
+### 2. Training (`two_probes/training/`)
 
-**Purpose**: Train transformer models to predict quantum density matrices from measurement sequences
+**Purpose**: Train transformer models to predict two-qubit quantum density matrices from measurement sequences
 
 **Key Files**:
 - `train_models.ipynb`: Main training pipeline
@@ -74,7 +87,7 @@ data/{snapshot_id}_d={d}/theta{theta_idx}/loop{i}/theta={theta_idx}_({b1},{b2}).
 
 **Architecture**: 
 - Modified Llama transformer (36 layers, 96 embedding dims, 48 attention heads)
-- Custom output layer for 4×4 complex density matrices
+- Custom output layer for 4×4 complex density matrices (two-qubit systems)
 - Attention masks for different spatial configurations
 - ~2.3M parameters optimized for quantum data
 
@@ -87,29 +100,29 @@ data/{snapshot_id}_d={d}/theta{theta_idx}/loop{i}/theta={theta_idx}_({b1},{b2}).
 
 **Metrics**: Quantum-Classical Cross Entropy, Negativity, Von Neumann Entropy
 
-### 3. Decode (`decode/`)
+### 3. Decode (`two_probes/decode/`)
 
-**Purpose**: Reconstruct and analyze quantum states from experimental data
+**Purpose**: Reconstruct and analyze two-qubit quantum states from experimental data
 
 **Key Files**:
 - `decode_6x6_d={3,4,5,6}.ipynb`: State reconstruction for different separations
 
 **Features**:
-- Tensor network contraction for state reconstruction
-- Support for different probe qubit configurations
+- Tensor network contraction for two-qubit state reconstruction
+- Support for different probe qubit spatial configurations (d=3,4,5,6)
 - Depolarization channel modeling
 - Quantum state tomography analysis
 - Performance evaluation across spatial scales
 
 **Applications**:
-- Quantum state verification
-- Entanglement characterization
+- Two-qubit quantum state verification
+- Entanglement characterization between probe qubits
 - Error analysis and correction
 - Experimental validation
 
-### 4. Simulation (`simulation/`)
+### 4. Simulation (`two_probes/simulation/`)
 
-**Purpose**: Classical simulation and theoretical calculations for validation
+**Purpose**: Classical simulation and theoretical calculations for two-probe system validation
 
 **Key Files**:
 - `cluster_simulation.ipynb`: 2D cluster state simulation
@@ -124,6 +137,59 @@ data/{snapshot_id}_d={d}/theta{theta_idx}/loop{i}/theta={theta_idx}_({b1},{b2}).
 
 **Output**: Theoretical predictions for comparison with experimental results
 
+## Single-Probe Experiments (`single_probe/`)
+
+### 1. Data Collection (`single_probe/data_collection/`)
+
+**Purpose**: Generate experimental quantum measurement data for single-probe qubit systems
+
+**Key Files**:
+- `data_collect.ipynb`: Main data collection notebook for single probe experiments
+- `shallow_cirq.py`: Quantum circuit generation for single-probe configurations
+
+**Hardware**: Google Quantum AI Willow processors
+
+**Features**:
+- Single probe qubit measurements within cluster states
+- Support for different grid sizes (3×3, 5×5, 6×6)
+- Ancilla-assisted error mitigation
+- Post-selection protocols for data quality
+- Systematic parameter sweeps (theta values)
+
+**Output**: Raw quantum measurement sequences for single-probe analysis
+
+### 2. Data Processing (`single_probe/`)
+
+**Key Files**:
+- `post_process_single.ipynb`: Data preprocessing and quality filtering
+
+**Features**:
+- Post-selection based on ancilla measurements
+- Shadow state reconstruction from single-qubit measurements
+- Data quality filtering and validation
+- Batch processing for large datasets
+
+### 3. Decode (`single_probe/decode/`)
+
+**Purpose**: Reconstruct and analyze single-qubit quantum states from experimental data
+
+**Key Files**:
+- `decode_6x6_single.ipynb`: Single-qubit state reconstruction and sensitivity analysis
+- `post_select_radius_single.ipynb`: Post-selection analysis for different radii
+
+**Features**:
+- Tensor network contraction for single-qubit state reconstruction
+- Sensitivity testing through measurement outcome flipping
+- Robustness analysis against measurement errors
+- Single-qubit quantum state tomography
+- Post-selection radius optimization
+
+**Applications**:
+- Single-qubit quantum state verification
+- Measurement error sensitivity analysis
+- Algorithm robustness testing
+- Single-probe quantum information studies
+
 ## Quick Start
 
 ### Prerequisites
@@ -133,15 +199,17 @@ pip install torch>=2.0.0 transformers>=4.30.0 numpy>=1.21.0 matplotlib>=3.5.0 ju
 
 ### Basic Workflow
 
+#### Two-Probe Experiments
+
 1. **Data Collection** (requires Google Quantum AI access):
 ```bash
-cd data_collection/
+cd two_probes/data_collection/
 jupyter notebook data_collect.ipynb
 ```
 
 2. **Data Preprocessing**:
 ```bash
-cd training/
+cd ../training/
 jupyter notebook post_process_d=3,4,5.ipynb
 ```
 
@@ -162,6 +230,27 @@ cd ../simulation/
 jupyter notebook cluster_simulation.ipynb
 ```
 
+#### Single-Probe Experiments
+
+1. **Data Collection** (requires Google Quantum AI access):
+```bash
+cd single_probe/data_collection/
+jupyter notebook data_collect.ipynb
+```
+
+2. **Data Preprocessing**:
+```bash
+cd ../
+jupyter notebook post_process_single.ipynb
+```
+
+3. **State Decoding & Analysis**:
+```bash
+cd decode/
+jupyter notebook decode_6x6_single.ipynb
+jupyter notebook post_select_radius_single.ipynb
+```
+
 ### Data Access
 
 **Google Drive**: https://drive.google.com/drive/folders/1mW342CtuutjiGhPIPRSAz8-r8XKolCJk?usp=sharing
@@ -171,20 +260,29 @@ jupyter notebook cluster_simulation.ipynb
 ## Technical Details
 
 ### Quantum System
+
+#### Two-Probe Experiments
 - **Grid**: 6×6 qubit arrays on superconducting processors
 - **Processors**: 
   - Willow Pink (`WLA1HHPR00V02_4A_PINK`) for d=3,4,5
   - Willow Delphi (`WIL01_3A_DELPHI`) for d=6
 - **Probe qubits**: Two-qubit systems with variable separation (d=3,4,5,6)
-- **Measurements**: Pauli basis measurements (X, Y, Z)
+- **Measurements**: Pauli basis measurements (X, Y, Z) on both probe qubits
 - **Circuit depth**: Shallow circuits optimized for NISQ devices
 
-### Machine Learning
+#### Single-Probe Experiments
+- **Grid**: Configurable qubit arrays (3×3, 5×5, 6×6)
+- **Processors**: Google Quantum AI Willow processors
+- **Probe qubits**: Single-qubit systems within cluster states
+- **Measurements**: Pauli basis measurements (X, Y, Z) on single probe qubit
+- **Circuit depth**: Shallow circuits with ancilla-assisted error mitigation
+
+### Machine Learning (Two-Probe Only)
 - **Architecture**: Transformer (Llama-based) with quantum-specific modifications
-- **Input**: Sequential quantum measurement data
-- **Output**: 4×4 complex quantum density matrices
+- **Input**: Sequential quantum measurement data from two probe qubits
+- **Output**: 4×4 complex quantum density matrices (two-qubit systems)
 - **Training**: Adam optimizer with quantum loss functions
-- **Evaluation**: Quantum information metrics
+- **Evaluation**: Quantum information metrics (Cross Entropy, Negativity, Von Neumann Entropy)
 
 ### Performance
 - **Scale**: 81M training samples, 1M test samples
@@ -194,11 +292,22 @@ jupyter notebook cluster_simulation.ipynb
 
 ## Research Applications
 
-- **Quantum State Tomography**: ML-enhanced state reconstruction
-- **NISQ Algorithm Development**: Practical quantum computing applications  
-- **Quantum Error Correction**: Understanding decoherence and mitigation
-- **Quantum Information Theory**: Entanglement and correlation studies
-- **Quantum Machine Learning**: Novel architectures for quantum data
+### Two-Probe Experiments
+- **Quantum State Tomography**: ML-enhanced two-qubit state reconstruction
+- **Entanglement Studies**: Characterization of quantum correlations across spatial separations
+- **Quantum Machine Learning**: Novel transformer architectures for quantum data
+- **NISQ Algorithm Development**: Practical quantum computing applications
+
+### Single-Probe Experiments  
+- **Single-Qubit Tomography**: Direct quantum state reconstruction
+- **Measurement Error Analysis**: Sensitivity testing and robustness evaluation
+- **Quantum Error Correction**: Understanding decoherence in individual qubits
+- **Post-Selection Protocols**: Optimization of quantum data processing
+
+### Both Paradigms
+- **Quantum Information Theory**: Fundamental studies of quantum information
+- **Hardware Characterization**: Performance evaluation of quantum processors
+- **Algorithm Validation**: Benchmarking quantum state reconstruction methods
 
 ## Citation
 
