@@ -75,6 +75,15 @@ Both experiments share four main pipeline components:
 data/{snapshot_id}_d={d}/theta{theta_idx}/loop{i}/theta={theta_idx}_({b1},{b2}).pt
 ```
 
+**Data File Naming Convention**:
+- `theta={theta_idx}`: The theta values in filenames are actually theta indices (0-10), not the actual angles
+  - Actual theta angles: `theta = torch.linspace(0, torch.pi/2, 11)[theta_idx]`
+- `({b1},{b2})`: Measurement basis indices for two-probe experiments
+  - 0 → X basis measurement
+  - 1 → Y basis measurement  
+  - 2 → Z basis measurement
+- `(b)`: Single measurement basis index for single-probe experiments
+
 ### 2. Training (`two_probes/training/`)
 
 **Purpose**: Train transformer models to predict two-qubit quantum density matrices from measurement sequences
