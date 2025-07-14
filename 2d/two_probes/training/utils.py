@@ -231,7 +231,6 @@ def load_checkpoint(model, optimizer, epoch, checkpoint_num=0, save_dir='checkpo
 def save_checkpoint_and_test(model, optimizer, epoch, checkpoint_num, 
                            temp_train, temp_test_test,
                            l_train, l_test, 
-                           prepseq_train, shadow_state_train, rhoS_train,
                            prepseq_test, shadow_state_test, rhoS_test,
                            device, save_dir, filename_prefix, d, theta_idx, num_check,
                            is_final=False):
@@ -288,8 +287,8 @@ def save_checkpoint_and_test(model, optimizer, epoch, checkpoint_num,
         l_test['msk off Sqc'].append(torch.tensor(temp_test_test['msk off Sqc']).mean().item())
         l_test['msk off Neg'].append(torch.tensor(temp_test_test['msk off Neg']).mean().item())
         l_test['msk off Sa'].append(torch.tensor(temp_test_test['msk off Sa']).mean().item())
-        
-        model.train()  # Back to training mode
+    
+    model.train()
     
     # Save checkpoint
     save_checkpoint(model, optimizer, epoch, checkpoint_num, 
