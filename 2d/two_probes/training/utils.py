@@ -281,9 +281,16 @@ def save_checkpoint_and_test(model, optimizer, epoch, checkpoint_num,
             temp_test_test['msk off Sqc'].extend(bSqc(rhoS_batch, rhoC).tolist())
             temp_test_test['msk off Neg'].extend(Neg(rhoS_batch, rhoC).tolist())
             temp_test_test['msk off Sa'].extend(Sa(rhoS_batch, rhoC).tolist())
+            
+            # Also record loss during test (with mask on, same as training)
+            rhoC_masked = model(prepseq_batch, True)
+            probs_masked = torch.bmm(torch.bmm(shadow_state_batch.conj().unsqueeze(1), rhoC_masked), shadow_state_batch.unsqueeze(-1)).view(-1).real
+            loss_masked = -probs_masked.log().mean()
+            temp_test_test['loss'].append(loss_masked.item())
 
         
         # Calculate and store mean test metrics
+        l_test['loss'].append(torch.tensor(temp_test_test['loss']).mean().item())
         l_test['msk off Sqc'].append(torch.tensor(temp_test_test['msk off Sqc']).mean().item())
         l_test['msk off Neg'].append(torch.tensor(temp_test_test['msk off Neg']).mean().item())
         l_test['msk off Sa'].append(torch.tensor(temp_test_test['msk off Sa']).mean().item())
@@ -298,11 +305,12 @@ def save_checkpoint_and_test(model, optimizer, epoch, checkpoint_num,
     # Clear temporary storage
     temp_train['msk on Sqc'].clear()
     temp_train['loss'].clear()
+    temp_test_test['loss'].clear()
     temp_test_test['msk off Sqc'].clear()
     temp_test_test['msk off Neg'].clear()
     temp_test_test['msk off Sa'].clear()
     
     # Print current metrics
     checkpoint_type_str = "final checkpoint" if is_final else "checkpoint"
-    print('epoch: %3d | %s: %3d | d: %3d | theta_idx: %3d | train Sqc: %.4f | loss: %.4f | test Sqc: %.4f | test Neg: %.4f | test Sa: %.4f' 
-          %(epoch, checkpoint_type_str, checkpoint_num, d, theta_idx, l_train['msk on Sqc'][-1], l_train['loss'][-1], l_test['msk off Sqc'][-1], l_test['msk off Neg'][-1], l_test['msk off Sa'][-1]))
+    print('epoch: %3d | %s: %3d | d: %3d | theta_idx: %3d | train Sqc: %.4f | train loss: %.4f | test loss: %.4f | test Sqc: %.4f | test Neg: %.4f | test Sa: %.4f' 
+          %(epoch, checkpoint_type_str, checkpoint_num, d, theta_idx, l_train['msk on Sqc'][-1], l_train['loss'][-1], l_test['loss'][-1], l_test['msk off Sqc'][-1], l_test['msk off Neg'][-1], l_test['msk off Sa'][-1]))
