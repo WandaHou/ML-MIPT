@@ -38,7 +38,7 @@ def get_two_qubits_6x6(d: int = 6) -> Tuple[List[List[cirq.GridQubit]],
 
     # Define probe qubits based on distance
     if d == 6:
-        probe_qubits = [cirq.GridQubit(3, 4), cirq.GridQubit(3, 9)]
+        probe_qubits = [cirq.GridQubit(3, 4), cirq.GridQubit(3, 9)] # this is not used
     elif d == 5:
         probe_qubits = [cirq.GridQubit(3, 4), cirq.GridQubit(3, 8)]
     elif d == 4:
