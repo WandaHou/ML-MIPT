@@ -3,6 +3,10 @@
 This module provides functions for creating and manipulating quantum circuits
 on a 6x6 grid of qubits, with support for different distance parameters and
 ancilla qubits.
+
+The 6x6 d=3,4,5 results were collected with this code on Willow Pink; the 6x6 d=6 result was collected with shallow_cirq_delphi.py on Willow Delphi.
+
+Other lattice sizes results were collected by Google team originally.
 """
 
 from typing import List, Tuple, Sequence
@@ -38,7 +42,7 @@ def get_two_qubits_6x6(d: int = 6) -> Tuple[List[List[cirq.GridQubit]],
 
     # Define probe qubits based on distance
     if d == 6:
-        probe_qubits = [cirq.GridQubit(3, 4), cirq.GridQubit(3, 9)] # this is not used
+        probe_qubits = [cirq.GridQubit(3, 4), cirq.GridQubit(3, 9)] # this was not used, the 6x6 d=6 result was collected with shallow_cirq_delphi.py on Willow Delphi.
     elif d == 5:
         probe_qubits = [cirq.GridQubit(3, 4), cirq.GridQubit(3, 8)]
     elif d == 4:
