@@ -47,6 +47,7 @@ def get_two_qubits_6x6(d: int = 6) -> Tuple[List[List[cirq.GridQubit]],
         probe_qubits = [cirq.GridQubit(3, 5), cirq.GridQubit(3, 7)]
 
     # Create qubit matrix
+    # this is the list of physical qubits excluding ancillas used for error detection. 
     qubits_matrix = []
     for x in range(3, 9):
         qbs = []
