@@ -7,6 +7,9 @@ class LlamaPredictor(torch.nn.Module):
     def __init__(self, L_max, d, n_embd, n_layer, n_head, vocab_size, dropout_prob):
         super().__init__()
         self.L_max = L_max
+        # LLaMA model architecture and configuration parameters
+        # Reference: https://huggingface.co/docs/transformers/v4.53.3/en/model_doc/llama2#transformers.LlamaForCausalLM
+        # For detailed documentation on LlamaConfig parameters and LlamaForCausalLM architecture
         configuration = LlamaConfig(vocab_size=vocab_size,  # Size of the vocabulary
                                     hidden_size=n_embd,   # Dimensionality of the embeddings and hidden states
                                     intermediate_size=n_embd,  # Dimensionality of the feed-forward layer
