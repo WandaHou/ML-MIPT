@@ -1,3 +1,28 @@
+"""
+Quantum State Simulator for ML Training Data Generation
+
+This module simulates quantum measurements and generates training data for machine learning models
+in quantum information tasks. It provides:
+
+1. Quantum Information Measures:
+   - bSqc: Batch quantum-classical entropy measure
+   - Neg: Batch negativity measure for quantum entanglement
+   - blogm: Batch matrix logarithm
+
+2. QState Class - Quantum State Simulator:
+   - Simulates quantum measurements in X, Y, Z bases
+   - Generates measurement outcomes and shadow states for quantum shadow tomography
+   - Supports both single-site and two-site measurements
+   - Creates training data pairs (measurement_outcomes, target_quantum_states)
+
+Primary Use: Generate synthetic quantum measurement data for training ML models to:
+- Reconstruct quantum states from measurement statistics
+- Predict quantum properties from measurement data
+
+The simulator is particularly useful for 1D quantum systems without ancilla qubits,
+where direct quantum state reconstruction from measurement data is the main task.
+"""
+
 import torch
 
 dtype = torch.complex128
@@ -5,7 +30,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def blogm(A):
     E, U = torch.linalg.eig(A)
-    E += 1e-5
+    # E += 1e-10
     logE = torch.log(E.abs()).to(U.dtype)
     logA = torch.bmm(torch.bmm(U, torch.diag_embed(logE, offset=0, dim1=-2, dim2=-1)), U.conj().mT)
     return logA
@@ -17,7 +42,7 @@ def Neg(rhoS, rhoC):
     rhoC_pt = rhoC.view(-1,2,2,2,2).permute(0,1,4,3,2).reshape(-1,4,4)
     rhoS_pt = rhoS.view(-1,2,2,2,2).permute(0,1,4,3,2).reshape(-1,4,4)
     e, v = torch.linalg.eig(rhoC_pt)
-    e += 1e-5
+    # e += 1e-10
     mask = e.real < 0
     negative_v = v * mask.unsqueeze(1)
     P = torch.bmm(negative_v, negative_v.mT.conj()) # projection matrix
